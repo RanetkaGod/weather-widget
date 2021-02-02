@@ -48,12 +48,14 @@ export default {
     }
   },
   watch: {
-    locations: async function (newVal) {
+    locations: function (newVal) {
       if (newVal.currentLocation.latitude) {
-        this.weather_data = await getWeatherByCoords(this.locations.currentLocation)
-        console.log(this.weather_data)
+        this.updateWeatherData()
       }
     }
+  },
+  mounted() {
+    this.updateWeatherData()
   },
   filters: {
     capitalize: function (value) {
@@ -72,6 +74,9 @@ export default {
     getWeatherIcon: function (id) {
       let icons_url = `http://openweathermap.org/img/wn/${id}@4x.png`
       return icons_url
+    },
+    updateWeatherData: async function () {
+      this.weather_data = await getWeatherByCoords(this.locations.currentLocation)
     }
   },
 
@@ -88,25 +93,10 @@ export default {
         return ''
     },
     windDirection: function () {
-      const directions = ['NNW', 'NW', 'WNW', 'W', 'WSW', 'SW', 'SSW', 'S', 'SSE', 'SE', 'ESE', 'E', 'ENE', 'NE', 'NNE', 'N']
       let wind_deg = this.weather_data.wind_deg
-      let start_deg = 348.75
-      let result
-      directions.some((direction) => {
-        if (wind_deg > (start_deg - 22.5) && wind_deg < start_deg) {
-          result = direction
-          return direction // because `some` need to return true
-        }
-        else {
-          if (start_deg > 22.5) {
-            start_deg -= 22.5
-          }
-          else {
-            result = direction
-          }
-        }
-      })
-      return result
+      let val = Math.round(wind_deg / 22.5);
+      let arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+      return arr[(val % 16)];
     }
   }
 }
