@@ -54,9 +54,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.updateWeatherData()
-  },
   filters: {
     capitalize: function (value) {
       if (!value) return ''
