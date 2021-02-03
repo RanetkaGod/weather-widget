@@ -1,38 +1,39 @@
 <template>
-  <div class="weather-card">
-    <div class="weather-card__inner" v-if="weather_data !== null">
-      <div class="weather-card__header">
-        <div class="location-name">{{ weather_data.location_name }}</div>
-        <button class="settings-button">
-          <img class="icon gear-icon" src="@/assets/gear_icon.webp"/>
-        </button>
-      </div>
-      <div class="weather">
-        <div class="temp-wrapper">
-          <img class="icon weather-type-img" :src="getWeatherIcon(weather_data.weather_type)">
-          <span class="temp">{{ weather_data.temp | round }}&#176;C</span>
+  <div class="weather-card-wrapper">
+    <div class="weather-card" v-if="serialized_weather !== null">
+      <div class="weather-card__inner" v-for="(weather_data, key) in serialized_weather" :key="key">
+        <div class="weather-card__header">
+          <div class="location-name">{{ weather_data.location_name }}</div>
+          <button class="settings-button" @click="$emit('changeTab', 'SettingsCard')">
+            <img src="@/assets/gear_icon.webp" class="gear-icon">
+          </button>
         </div>
-        <div class="description">
+        <div class="weather">
+          <div class="temp-wrapper">
+            <img class="icon weather-type-img" :src="getWeatherIcon(weather_data.weather_type)">
+            <span class="temp">{{ weather_data.temp | round }}&#176;C</span>
+          </div>
+          <div class="description">
             <span class="">Feels like {{ weather_data.feels_like | round }}.
-            {{ weather_data.description | capitalize }}. {{windStrenght}}. </span>
-        </div>
-        <div class="detailed_data">
+            {{ weather_data.description | capitalize }}. {{ windStrenght(weather_data.wind_speed) }}. </span>
+          </div>
+          <div class="detailed_data">
               <span class="cell wind">
                 <img class="logo wind_logo" :style="{ transform: `rotate(${weather_data.wind_deg - 45}deg)` }"
                      src="@/assets/arrow.png">
-                <span>{{ weather_data.wind_speed }}m/s {{windDirection}}</span>
+                <span>{{ weather_data.wind_speed }}m/s {{ windDirection(weather_data.wind_deg) }}</span>
               </span> <!--deg-->
-          <span class="cell">
+            <span class="cell">
                 <img class="logo pressure_logo" src="@/assets/barometer.png">
                 <span>{{ weather_data.pressure }}hPa</span>
               </span>
-          <span class="cell">Humidity: {{ weather_data.humidity }}%</span>
-          <span class="cell">Visibility: {{ weather_data.visibility }}km</span>
-          <!--Dew point ???-->
+            <span class="cell">Humidity: {{ weather_data.humidity }}%</span>
+            <span class="cell">Visibility: {{ weather_data.visibility }}km</span>
+            <!--Dew point ???-->
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -41,15 +42,17 @@ import {getWeatherByCoords} from "@/api/api"
 
 export default {
   name: "WeatherCard",
-  props: ["locations"],
+  props: {
+    locations: Array
+  },
   data() {
     return {
-      weather_data: null,
+      serialized_weather: null,
     }
   },
   watch: {
     locations: function (newVal) {
-      if (newVal.currentLocation.latitude) {
+      if (Array.isArray(newVal) && newVal.length) {
         this.updateWeatherData()
       }
     }
@@ -69,17 +72,12 @@ export default {
 
   methods: {
     getWeatherIcon: function (id) {
-      let icons_url = `http://openweathermap.org/img/wn/${id}@4x.png`
-      return icons_url
+      return `http://openweathermap.org/img/wn/${id}@4x.png`
     },
     updateWeatherData: async function () {
-      this.weather_data = await getWeatherByCoords(this.locations.currentLocation)
-    }
-  },
-
-  computed: {
-    windStrenght: function () {
-      let wind_speed = this.weather_data.wind_speed
+      this.serialized_weather = await getWeatherByCoords(this.locations)
+    },
+    windStrenght: function (wind_speed) {
       if (wind_speed <= 5 && wind_speed >= 2)
         return 'Light breeze'
       else if (wind_speed < 2)
@@ -89,18 +87,18 @@ export default {
       else
         return ''
     },
-    windDirection: function () {
-      let wind_deg = this.weather_data.wind_deg
+    windDirection: function (wind_deg) {
       let val = Math.round(wind_deg / 22.5);
       let arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
       return arr[(val % 16)];
     }
-  }
+  },
+
 }
 </script>
 
 <style lang="sass" scoped>
-.weather-card
+.weather-card-wrapper
   width: 300px
 
   .weather-card__inner
@@ -129,7 +127,7 @@ export default {
       .detailed_data
         margin-top: 20px
         display: grid
-        grid-column-gap: 40px
+        grid-column-gap: 20px
         grid-template-columns: 1fr 1fr
 
         .cell

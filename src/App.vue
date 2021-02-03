@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <component :locations = "locations" :is="currentTab"/>
+    <component @changeTab="changeTab" :locations="locations" :is="current_tab"/>
   </div>
 </template>
 
@@ -16,29 +16,32 @@ export default {
   },
   data() {
     return {
-      currentTab: WeatherCard,
-      locations: {currentLocation: {}}
+      current_tab: WeatherCard,
+      locations: []
     }
   },
   mounted: function () {
-    //let tempLoc = JSON.parse(window.localStorage.getItem("locations"))
-    //console.log(tempLoc)
-    if(!window.localStorage.getItem("locations")) {
+    if (!window.localStorage.getItem("locations")) {
       window.navigator.geolocation.getCurrentPosition(this.setCurrentLocation, console.log) // successCallback, failureCallback
-    }
-    else {
+    } else {
       this.locations = JSON.parse(window.localStorage.getItem("locations"))
     }
   },
   methods: {
     setCurrentLocation(data) {
-      console.log(data.coords)
-      this.locations['currentLocation']['latitude'] = data.coords.latitude
-      this.locations['currentLocation']['longitude'] = data.coords.longitude
+      this.locations.push(
+          {
+            'latitude': data.coords.latitude,
+            'longitude': data.coords.longitude
+          }
+      )
       this.updateLocalStorage()
     },
     updateLocalStorage: function () {
       window.localStorage.setItem("locations", JSON.stringify(this.locations))
+    },
+    changeTab: function (tab) {
+      this.current_tab = tab
     }
   }
 }
@@ -50,8 +53,10 @@ export default {
 
 body
   font-family: "Roboto", sans-serif
+
 button:focus
   outline: none
+
 ::-moz-focus-inner
   border: 0
 
