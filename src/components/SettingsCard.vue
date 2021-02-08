@@ -3,7 +3,9 @@
     <div class="settings-card__inner">
       <div class="chosen-locations">
         <div class="locations-list">
-          <div class="location" v-for="(location, key) in locations" :key="key">{{ location.name }}</div>
+          <draggable :list="locations" @start="drag=true" @end="drag=false">
+            <div class="location" v-for="(location, key) in locations" :key="key">{{ location.name }}</div>
+          </draggable>
         </div>
       </div>
       <div class="location-add">
@@ -20,12 +22,16 @@
 </template>
 
 <script>
-import { getApiLocationName } from "@/api/api.js"
+import {getApiLocationName} from "@/api/api.js"
+import draggable from 'vuedraggable'
 
 export default {
   name: "SettingsCard",
   props: {
     locations: Array
+  },
+  components: {
+    draggable
   },
   data() {
     return {
@@ -44,5 +50,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
+.location
+  cursor: pointer
 </style>
