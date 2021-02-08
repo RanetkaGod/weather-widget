@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <component @changeTab="changeTab" :locations="locations" :is="current_tab"/>
+    <component @changeTab = "changeTab" :locations="locations" :is="current_tab"/>
   </div>
 </template>
 
@@ -42,6 +42,13 @@ export default {
     },
     changeTab: function (tab) {
       this.current_tab = tab
+    }
+  },
+  watch: {
+    locations: function (newVal) {
+      if (Array.isArray(newVal) && newVal.length) {
+        this.updateLocalStorage()
+      }
     }
   }
 }

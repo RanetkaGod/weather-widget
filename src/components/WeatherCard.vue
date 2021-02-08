@@ -4,7 +4,7 @@
       <div class="weather-card__inner" v-for="(weather_data, key) in serialized_weather" :key="key">
         <div class="weather-card__header">
           <div class="location-name">{{ weather_data.location_name }}</div>
-          <button class="settings-button" @click="$emit('changeTab', 'SettingsCard')">
+          <button v-if="key === 0" class="settings-button" @click="$emit('changeTab', 'SettingsCard')">
             <img src="@/assets/gear_icon.webp" class="gear-icon">
           </button>
         </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {getWeatherByCoords} from "@/api/api"
+import {getWeather} from "@/api/api"
 
 export default {
   name: "WeatherCard",
@@ -75,7 +75,7 @@ export default {
       return `http://openweathermap.org/img/wn/${id}@4x.png`
     },
     updateWeatherData: async function () {
-      this.serialized_weather = await getWeatherByCoords(this.locations)
+      this.serialized_weather = await getWeather(this.locations)
     },
     windStrenght: function (wind_speed) {
       if (wind_speed <= 5 && wind_speed >= 2)
@@ -102,6 +102,7 @@ export default {
   width: 300px
 
   .weather-card__inner
+    margin-bottom: 80px
     .location-name
       font-weight: 800
       font-size: 1.1em
