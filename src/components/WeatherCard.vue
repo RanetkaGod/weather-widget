@@ -3,7 +3,7 @@
     <div class="weather-card" v-if="serialized_weather !== null">
       <div class="weather-card__inner" v-for="(weather_data, key) in serialized_weather" :key="key">
         <div class="weather-card__header">
-          <div class="location-name">{{ weather_data.location_name }}</div>
+          <div class="location-name">{{ weather_data.location_name }}, {{ weather_data.country }}</div>
           <button v-if="key === 0" class="settings-button" @click="$emit('changeTab', 'SettingsCard')">
             <img src="@/assets/gear_icon.webp" class="gear-icon">
           </button>

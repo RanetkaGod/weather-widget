@@ -53,12 +53,12 @@ async function getApiLocationName(name) {
     } catch (e) {
         console.error(e)
     }
-
 }
 
 function serializeWeatherObject(weather) {
     serialized_weather.push({
         location_name: weather.data.name,
+        country: weather.data.sys.country,
         temp: weather.data.main.temp,
         feels_like: weather.data.main.feels_like,
         description: weather.data.weather[0].description,
