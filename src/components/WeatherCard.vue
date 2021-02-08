@@ -21,7 +21,7 @@
               <span class="cell wind">
                 <img class="logo wind_logo" :style="{ transform: `rotate(${weather_data.wind_deg - 45}deg)` }"
                      src="@/assets/arrow.png">
-                <span>{{ weather_data.wind_speed }}m/s {{ windDirection(weather_data.wind_deg) }}</span>
+                <span>{{ weather_data.wind_speed | round }}m/s {{ windDirection(weather_data.wind_deg) }}</span>
               </span> <!--deg-->
             <span class="cell">
                 <img class="logo pressure_logo" src="@/assets/barometer.png">
