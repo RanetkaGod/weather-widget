@@ -50,13 +50,19 @@ export default {
       serialized_weather: null,
     }
   },
-  watch: {
-    locations: function (newVal) {
-      if (Array.isArray(newVal) && newVal.length) {
-        this.updateWeatherData()
-      }
+  mounted() {
+    console.log(this.locations)
+    if (Array.isArray(this.locations) && this.locations.length) {
+      this.updateWeatherData()
     }
   },
+  // watch: {
+  //   locations: function (newVal) {
+  //     if (Array.isArray(newVal) && newVal.length) {
+  //       this.updateWeatherData()
+  //     }
+  //   }
+  // },
   filters: {
     capitalize: function (value) {
       if (!value) return ''
@@ -99,10 +105,11 @@ export default {
 
 <style lang="sass" scoped>
 .weather-card-wrapper
-  width: 300px
+  width: 100%
 
   .weather-card__inner
     margin-bottom: 80px
+
     .location-name
       font-weight: 800
       font-size: 1.1em

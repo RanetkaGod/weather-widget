@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <component @changeTab = "changeTab" :locations="locations" :is="current_tab"/>
+    <component v-if="locations.length || current_tab.name !== 'WeatherCard'" @deleteLocation="deleteLocation" @changeTab="changeTab" :locations="locations" :is="current_tab"/>
   </div>
 </template>
 
@@ -22,13 +22,16 @@ export default {
   },
   mounted: function () {
     if (!window.localStorage.getItem("locations")) {
-      window.navigator.geolocation.getCurrentPosition(this.setCurrentLocation, console.log) // successCallback, failureCallback
+      this.getGeoData()
     } else {
       this.locations = JSON.parse(window.localStorage.getItem("locations"))
     }
   },
   methods: {
-    setCurrentLocation(data) {
+    getGeoData: function () {
+      window.navigator.geolocation.getCurrentPosition(this.setCurrentLocation, console.log) // successCallback, failureCallback
+    },
+    setCurrentLocation: function (data) {
       this.locations.push(
           {
             'latitude': data.coords.latitude,
@@ -38,17 +41,21 @@ export default {
       this.updateLocalStorage()
     },
     updateLocalStorage: function () {
+      if (!this.locations.length && this.current_tab.name !== 'SettingsCard') {
+        this.getGeoData()
+      }
       window.localStorage.setItem("locations", JSON.stringify(this.locations))
     },
     changeTab: function (tab) {
       this.current_tab = tab
-    }
+    },
+    deleteLocation: function (key) {
+      this.locations.splice(key, 1)
+    },
   },
   watch: {
-    locations: function (newVal) {
-      if (Array.isArray(newVal) && newVal.length) {
-        this.updateLocalStorage()
-      }
+    locations: function () {
+      this.updateLocalStorage()
     }
   }
 }
@@ -58,11 +65,21 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap')
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')
 
+#app
+  width: 300px
+
+*
+  box-sizing: border-box
+
 body
   font-family: "Roboto", sans-serif
 
 button:focus
   outline: none
+
+  &:active
+    outline: none
+    border: none
 
 ::-moz-focus-inner
   border: 0

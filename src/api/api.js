@@ -5,6 +5,7 @@ let api_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + api_key 
 let serialized_weather = []
 
 async function getWeather(locations) {
+    serialized_weather = []
     let weather
     for (let location of locations) {
         if (location.latitude && location.longitude) {
