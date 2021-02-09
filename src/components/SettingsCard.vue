@@ -29,6 +29,9 @@
               <img src="@/assets/enter.png" class="icon enter"/>
             </button>
           </div>
+          <div class="error-box" v-if="error">
+            {{error}}
+          </div>
         </div>
       </div>
     </div>
@@ -49,14 +52,20 @@ export default {
   },
   data() {
     return {
+      error: '',
       new_location: ''
     }
   },
   methods: {
     addLocation: async function () {
       let new_location_data = await getApiLocationName(this.new_location)
-      if (new_location_data) {
+      if (!(new_location_data instanceof Error)) {
         this.locations.push(new_location_data)
+        this.new_location = ''
+        this.error = ''
+      }
+      else {
+        this.error = `This city doesn't exist`
       }
     }
   }
@@ -128,5 +137,10 @@ export default {
   &.drag
     margin-right: 8px
     cursor: pointer
+
+.error-box
+  width: 100%
+  padding: 10px 0
+  color: red
 
 </style>

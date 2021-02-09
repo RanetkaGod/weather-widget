@@ -45,7 +45,7 @@ async function getApiLocationName(name) {
         }
 
     } catch (e) {
-        console.error(e)
+        return e
     }
 }
 

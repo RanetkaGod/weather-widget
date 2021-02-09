@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <component v-if="locations.length || current_tab.name !== 'WeatherCard'" @deleteLocation="deleteLocation" @changeTab="changeTab" :locations="locations" :is="current_tab"/>
+    <component v-if="locations.length || current_tab.name !== 'WeatherCard'" @updateLocalStorage = "updateLocalStorage" @deleteLocation="deleteLocation" @changeTab="changeTab" :locations="locations" :is="current_tab"/>
   </div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
     setCurrentLocation: function (data) {
       this.locations.push(
           {
+            'name': 'Current location',
             'latitude': data.coords.latitude,
             'longitude': data.coords.longitude
           }
@@ -41,7 +42,7 @@ export default {
       this.updateLocalStorage()
     },
     updateLocalStorage: function () {
-      if (!this.locations.length && this.current_tab.name !== 'SettingsCard') {
+      if (!this.locations.length && this.current_tab.toString() !== 'SettingsCard') {
         this.getGeoData()
       }
       window.localStorage.setItem("locations", JSON.stringify(this.locations))

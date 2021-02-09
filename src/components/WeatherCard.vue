@@ -56,14 +56,17 @@ export default {
     if (Array.isArray(this.locations) && this.locations.length) {
       this.updateWeatherData()
     }
+    else {
+      this.$emit('updateLocalStorage')
+    }
   },
-  // watch: {
-  //   locations: function (newVal) {
-  //     if (Array.isArray(newVal) && newVal.length) {
-  //       this.updateWeatherData()
-  //     }
-  //   }
-  // },
+  watch: {
+    locations: function (newVal) {
+      if (Array.isArray(newVal) && newVal.length) {
+        this.updateWeatherData()
+      }
+    }
+  },
   filters: {
     capitalize: function (value) {
       if (!value) return ''
