@@ -7,7 +7,7 @@ let serialized_weather = []
 
 async function getWeather(locations) {
     serialized_weather = []
-    let locations_promises = await locations.map((location) => {
+    let locations_promises = locations.map((location) => {
         return getWeatherByCoords(location.latitude, location.longitude)
     })
     Promise.all(locations_promises).then(responses => {
