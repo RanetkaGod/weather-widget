@@ -4,24 +4,17 @@ import axios from "axios"
 let api_url = "http://api.openweathermap.org/data/2.5/weather?appid=" + api_key + '&units=metric'
 let serialized_weather = []
 
+
 async function getWeather(locations) {
     serialized_weather = []
-    let weather
-    for (let location of locations) {
-        if (location.latitude && location.longitude) {
-            weather = await getWeatherByCoords(location.latitude, location.longitude)
-            if (!location.name) {
-                location.name = weather.data.name
-            }
-        }
-        if (location.name) {
-            weather = await getWeatherByLocationName(location.name)
-            console.log(weather)
-        } else {
-            console.error('Ошибка при получении данных о погоде') // parse error
-        }
-        serializeWeatherObject(weather)
-    }
+    let locations_promises = await locations.map((location) => {
+        return getWeatherByCoords(location.latitude, location.longitude)
+    })
+    Promise.all(locations_promises).then(responses => {
+        responses.forEach(response => {
+            serializeWeatherObject(response)
+        })
+    })
     return serialized_weather
 }
 

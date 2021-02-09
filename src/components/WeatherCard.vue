@@ -38,6 +38,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import {getWeather} from "@/api/api"
 
 export default {
