@@ -5,7 +5,7 @@
         <div class="weather-card__header">
           <div class="location-name">{{ weather_data.location_name }}, {{ weather_data.country }}</div>
           <button v-if="key === 0" class="settings-button" @click="$emit('changeTab', 'SettingsCard')">
-            <img src="@/assets/gear_icon.webp" class="gear-icon">
+            <img src="@/assets/gear_icon.webp" class="gear-icon"/>
           </button>
         </div>
         <div class="weather">
@@ -19,12 +19,11 @@
           </div>
           <div class="detailed_data">
               <span class="cell wind">
-                <img class="logo wind_logo" :style="{ transform: `rotate(${weather_data.wind_deg - 45}deg)` }"
-                     src="@/assets/arrow.png">
+                <img src="https://i.pinimg.com/564x/52/94/1b/52941b4bbd71bd68e017f6d1fbf5d69a.jpg" class="logo wind_logo" :style="{ transform: `rotate(${weather_data.wind_deg - 45}deg)` }"/>
                 <span>{{ weather_data.wind_speed | round }}m/s {{ windDirection(weather_data.wind_deg) }}</span>
               </span> <!--deg-->
             <span class="cell">
-                <img class="logo pressure_logo" src="@/assets/barometer.png">
+                <img src="https://i.pinimg.com/originals/9e/8f/4a/9e8f4af4d9fd3cf58516b88452613a61.png" class="logo pressure_logo"/>
                 <span>{{ weather_data.pressure }}hPa</span>
               </span>
             <span class="cell">Humidity: {{ weather_data.humidity }}%</span>

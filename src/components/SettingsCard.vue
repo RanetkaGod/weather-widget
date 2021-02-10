@@ -3,7 +3,7 @@
     <div class="settings-card__header">
       <span class="card-title">Settings</span>
       <button class="back-button" @click="$emit('changeTab', 'WeatherCard')">
-        <img src="@/assets/xmark.png" class="icon back">
+        <img src="https://i.pinimg.com/originals/3e/29/20/3e2920758b4d82791f367ad6d7b5f52f.png" class="icon back"/>
       </button>
     </div>
     <div class="settings-card__inner">
@@ -11,10 +11,10 @@
         <div class="locations-list">
           <draggable tag="span" :list="locations" handle=".handle">
             <div class="location" v-for="(location, key) in locations" :key="key">
-              <img src="@/assets/burger.png" class="icon drag handle"/>
+              <img src="https://i.pinimg.com/originals/cf/87/11/cf8711778fa5a725541bafa4b41fb479.png" class="icon drag handle"/>
               <span class="location_name">{{ location.name }}</span>
               <button class="delete_location" @click="$emit('deleteLocation', key)">
-                <img src="@/assets/trashcan.png" class="icon delete"/>
+                <img src="https://i.pinimg.com/originals/f7/f1/03/f7f1035d0201a52f3df205ab597ffdca.png" class="icon delete"/>
               </button>
             </div>
           </draggable>
@@ -26,7 +26,7 @@
           <div class="location-input-wrapper">
             <input class="location-input-field" v-model="new_location"/>
             <button class="location-input-button" @click="addLocation">
-              <img src="@/assets/enter.png" class="icon enter"/>
+              <img src="https://i.pinimg.com/originals/ed/92/78/ed92784c3bf967dc59e99df83a9e284a.png" class="icon enter"/>
             </button>
           </div>
           <div class="error-box" v-if="error">

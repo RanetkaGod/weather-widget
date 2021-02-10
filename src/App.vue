@@ -63,11 +63,11 @@ export default {
 </script>
 
 <style lang="sass">
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap')
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')
 
 #app
   width: 300px
+  font-family: "Roboto", sans-serif
 
 *
   box-sizing: border-box
