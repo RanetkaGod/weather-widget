@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     getGeoData: function () {
-      window.navigator.geolocation.getCurrentPosition(this.setCurrentLocation, console.log) // successCallback, failureCallback
+      window.navigator.geolocation.getCurrentPosition(this.setCurrentLocation, this.noLocationCallback) // successCallback, failureCallback
     },
     setCurrentLocation: function (data) {
       this.locations.push(
@@ -40,6 +40,9 @@ export default {
           }
       )
       this.updateLocalStorage()
+    },
+    noLocationCallback: function () {
+      this.current_tab = SettingsCard
     },
     updateLocalStorage: function () {
       if (!this.locations.length && this.current_tab.toString() !== 'SettingsCard') {

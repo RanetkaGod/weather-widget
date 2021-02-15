@@ -7,7 +7,7 @@ const CustomElement = wrap(Vue, App)
 window.customElements.define('vue-weather-widget', CustomElement)
 
 Vue.config.productionTip = false
-//
-// new Vue({
-//   render: h => h(App),
-// }).$mount('#app')
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
