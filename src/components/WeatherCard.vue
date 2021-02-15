@@ -28,7 +28,6 @@
               </span>
             <span class="cell">Humidity: {{ weather_data.humidity }}%</span>
             <span class="cell">Visibility: {{ weather_data.visibility }}km</span>
-            <!--Dew point ???-->
           </div>
         </div>
       </div>
@@ -51,7 +50,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.locations)
     if (Array.isArray(this.locations) && this.locations.length) {
       this.updateWeatherData()
     }

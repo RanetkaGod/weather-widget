@@ -62,7 +62,6 @@ function serializeWeatherObject(weather) {
         humidity: weather.data.main.humidity,
         visibility: weather.data.visibility / 1000,
         weather_type: weather.data.weather[0].icon
-        // + название локи по кордам
     })
 }
 
