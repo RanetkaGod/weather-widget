@@ -7,4 +7,4 @@ vue-weather-widget.js находится в корне проекта
 
 <script src="https://unpkg.com/vue"></script>
 <script src="vue-weather-widget.js"></script>
-<vue-weather-widget></vue-weather-widget
+<vue-weather-widget></vue-weather-widget>
